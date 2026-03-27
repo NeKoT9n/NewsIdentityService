@@ -1,6 +1,6 @@
 ﻿using IdentityService.Application.Dto;
-using IdentityService.Dto.Requests;
 using Riok.Mapperly.Abstractions;
+using RegisterRequest = IdentityService.Dto.Requests.RegisterRequest;
 
 namespace IdentityService.Mappers;
 

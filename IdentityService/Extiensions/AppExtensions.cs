@@ -1,6 +1,10 @@
 ﻿using IdentityService.Application.Abstraction;
+using IdentityService.Application.Options;
 using IdentityService.Application.Services;
+using IdentityService.Application.Services.JWT;
+using IdentityService.Application.Services.Password;
 using IdentityService.DataAccess;
+using IdentityService.Mappers;
 using Microsoft.EntityFrameworkCore;
 
 namespace IdentityService.Extiensions;
@@ -27,8 +31,26 @@ public static class AppExtensions
 
         public IServiceCollection RegisterServices()
         {
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IJwtProvider, JwtProvider>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
         
+            return services;
+        }
+
+        public IServiceCollection RegisterOptions(IConfiguration configuration)
+        {
+            services.Configure<JwtOptions>(
+                configuration.GetSection(nameof(JwtOptions)));
+
+            return services;
+        }
+
+        public IServiceCollection AddMappers()
+        {
+            services.AddSingleton<RegistrationMapper>();
+            services.AddSingleton<LoginMapper>();
+            
             return services;
         }
     }
