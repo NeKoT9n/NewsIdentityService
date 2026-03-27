@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\NewsApi\Shared\Shared.csproj" />
+      <ProjectReference Include="..\IdentityService.DataAccess\IdentityService.DataAccess.csproj" />
+      <ProjectReference Include="..\IdentityService.Domain\IdentityService.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

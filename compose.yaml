@@ -1,0 +1,37 @@
+﻿services:
+  identity-service:
+    image: identity-service
+    container_name: identity-service
+    build:
+      context: . 
+      dockerfile: IdentityService/Dockerfile
+    networks:
+      - default        
+      - news-shared-net
+    environment:
+      - ConnectionStrings__IdentityDbContext=Host=identity-db;Port=5432;Database=identity_db;Username=admin;Password=admin
+      - MessageBroker__Host=rabbitmq
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5007:8080" 
+    depends_on:
+      - identity-db
+      
+  identity-db:
+    image: postgres:latest
+    container_name: identity-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: identity_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - identity_data:/var/lib/postgresql/data2
+
+volumes:
+  identity_data:
+    
+networks:
+  news-shared-net:
+    external: true
